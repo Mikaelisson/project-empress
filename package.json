@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "concurrently \"cd ./client && yarn dev\"",
-    "build": "cd ./client && yarn"
+    "postinstall": "cd ./client && yarn"
   },
   "dependencies": {}
 }
