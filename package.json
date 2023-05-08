@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "start": "node server/app.js",
-    "postinstall": "cd ./server && yarn",
+    "postinstall": "cd ./server & yarn",
     "dev": "concurrently \"nodemon server/app\" \"cd ./client && yarn dev\""
   },
   "dependencies": {
