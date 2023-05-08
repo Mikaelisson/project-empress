@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "concurrently \"nodemon server/app\" \"cd ./client && yarn dev\"",
-    "postinstall": "concurrently \"cd ./server && yarn\" \"cd ./client && yarn\""
+    "postinstall": "cd ./server && yarn"
   },
   "dependencies": {
     "dotenv": "^16.0.3"
