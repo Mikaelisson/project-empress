@@ -5,8 +5,10 @@
   "author": "Mikaelisson Gesuino",
   "license": "MIT",
   "scripts": {
-    "dev": "concurrently \"cd ./client && yarn dev\"",
-    "postinstall": "cd ./client && yarn"
+    "dev": "concurrently \"nodemon server/app\" \"cd ./client && yarn dev\"",
+    "postinstall": "concurrently \"cd ./server && yarn\" \"cd ./client && yarn\""
   },
-  "dependencies": {}
+  "dependencies": {
+    "dotenv": "^16.0.3"
+  }
 }

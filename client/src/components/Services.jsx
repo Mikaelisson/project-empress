@@ -1,7 +1,6 @@
 import { useState } from "react";
 
 const Services = () => {
-  const [viewMore, setViewMore] = useState(true);
   const [services, setServices] = useState([
     {
       image: "./Technology-Watch.jpg",

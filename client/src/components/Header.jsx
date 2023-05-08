@@ -1,8 +1,10 @@
 import { useState } from "react";
+import { BsBoxArrowUpRight } from "react-icons/bs";
 import { MdOutlineMenu, MdOutlineMenuOpen } from "react-icons/md";
 
 const Header = () => {
   const [menu, setMenu] = useState(false);
+  //List of menu buttons
   const [items, setItem] = useState([
     {
       name: "Home",
@@ -19,6 +21,11 @@ const Header = () => {
     {
       name: "Contact",
       path: "#contact",
+    },
+    {
+      name: "Support",
+      path: "/dashboard",
+      icon: <BsBoxArrowUpRight style={{ width: "15px", height: "15px" }} />,
     },
   ]);
 
@@ -57,10 +64,11 @@ const Header = () => {
                 return (
                   <li key={index} className="">
                     <a
-                      className="text-decoration-none list-style-none btn btn-primary dropdown-item"
+                      className="text-decoration-none btn btn-primary dropdown-item d-flex align-items-center gap-2"
                       href={item.path}
                     >
                       {item.name}
+                      {item.icon && item.icon}
                     </a>
                   </li>
                 );
@@ -74,8 +82,12 @@ const Header = () => {
             {items.map((item, index) => {
               return (
                 <li key={index} className="">
-                  <a className="btn btn-primary" href={item.path}>
+                  <a
+                    className="btn btn-primary d-flex align-items-center gap-2"
+                    href={item.path}
+                  >
                     {item.name}
+                    {item.icon && item.icon}
                   </a>
                 </li>
               );
