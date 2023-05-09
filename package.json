@@ -10,6 +10,9 @@
     "postinstall": "cd client && yarn",
     "dev": "concurrently \"nodemon server/app\" \"cd ./client && yarn dev\""
   },
+  "engines": {
+    "node": ">=14 <15"
+  },
   "dependencies": {
     "dotenv": "^16.0.3"
   }
