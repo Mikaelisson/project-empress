@@ -1,13 +1,21 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Footer from "../Footer";
-import Loading from "../loading/Loading";
+import Loading from "../utils/Loading";
+import Alert from "../utils/Alert";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [alert, setAlert] = useState(false);
+  const [messageFetch, setMessageFetch] = useState("");
+
+  const onSetMessageFetch = (data) => {
+    setMessageFetch(data);
+    setTimeout(() => {
+      setMessageFetch("");
+    }, 3000);
+  };
 
   const navigate = useNavigate();
   const SESSION_EMPRESS = "SESSION_EMPRESS";
@@ -20,6 +28,9 @@ const Login = () => {
       },
       body: JSON.stringify({ email, password }),
     });
+
+    const data = await doc.json();
+    onSetMessageFetch(data);
 
     const token = doc.headers.get("authorization-token");
 
@@ -120,9 +131,9 @@ const Login = () => {
 
       {loading && <Loading />}
 
-      {alert && (
-        <div className="position-absolute top-0 w-100 d-flex justify-content-center">
-          <div className="alert alert-danger mt-4">Error</div>
+      {messageFetch && (
+        <div className="w-100 d-flex justify-content-center">
+          <Alert>{messageFetch}</Alert>
         </div>
       )}
     </div>

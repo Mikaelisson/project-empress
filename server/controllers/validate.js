@@ -1,13 +1,10 @@
 const Joi = require("joi");
 
-const addProjectValidate = (data) => {
+const addTicketValidate = (data) => {
   const schema = Joi.object({
+    client: Joi.string().required(),
     title: Joi.string().required(),
     description: Joi.string().required(),
-    comments: Joi.string().empty(""),
-    mobileSupport: Joi.boolean().required(),
-    url: Joi.string().required(),
-    repository: Joi.string().required(),
     email: Joi.string().required(),
   });
 
@@ -49,7 +46,7 @@ const editUserValidate = (data) => {
 };
 
 module.exports = {
-  addProjectValidate,
+  addTicketValidate,
   editProjectValidate,
   addUserValidate,
   editUserValidate,

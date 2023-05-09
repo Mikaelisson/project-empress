@@ -3,7 +3,6 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 module.exports = async (req, res, next) => {
-  console.log(req.body);
   const errorMessages = {
     invalidUser: "Usuário ou senha inválidos.",
   };
@@ -13,13 +12,17 @@ module.exports = async (req, res, next) => {
   };
 
   try {
+    if (user.email == "" || user.password == "")
+      return res.status(400).json(errorMessages.invalidUser);
+
     //search user
     const doc = await User.findOne({ email: user.email });
-    if (!doc) res.status(400).json(errorMessages.invalidUser);
+    if (!doc) return res.status(400).json(errorMessages.invalidUser);
 
     //check password
     const validatePassword = bcrypt.compareSync(user.password, doc.password);
-    if (!validatePassword) res.status(400).json(errorMessages.invalidUser);
+    if (!validatePassword)
+      return res.status(400).json(errorMessages.invalidUser);
 
     if (validatePassword) {
       //token creation

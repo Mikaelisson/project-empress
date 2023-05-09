@@ -2,7 +2,7 @@ import { useState } from "react";
 import { BsBoxArrowUpRight } from "react-icons/bs";
 import { MdOutlineMenu, MdOutlineMenuOpen } from "react-icons/md";
 
-const Header = () => {
+const Header = (props) => {
   const [menu, setMenu] = useState(false);
   //List of menu buttons
   const [items, setItem] = useState([
@@ -30,7 +30,7 @@ const Header = () => {
   ]);
 
   return (
-    <header className="d-flex justify-content-center">
+    <header className={`d-flex justify-content-center ${props.className}`}>
       <div className="d-flex justify-content-between align-items-center py-3 py-sm-4 w-75">
         <h1>
           <a className="text-decoration-none" href="/">

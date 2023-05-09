@@ -1,5 +1,5 @@
 const Project = require("../models/Project");
-const { addProjectValidate, editProjectValidate } = require("./validate");
+const { addTicketValidate, editProjectValidate } = require("./validate");
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 
@@ -21,30 +21,24 @@ const validateToken = async (email) => {
   else return token;
 };
 
-const addProject = async (req, res) => {
-  const { error } = addProjectValidate(req.body);
+const addTicket = async (req, res) => {
+  const { error } = addTicketValidate(req.body);
   if (error) res.status(404).send(`Error JOI ==> ${error.message}`);
 
   try {
     await validateToken(req.body.email);
 
-    const image = await uploadImage(req.file);
-
     const data = new Project({
       title: req.body.title,
+      client: req.body.client,
       description: req.body.description,
-      comments: req.body.comments,
-      mobileSupport: req.body.mobileSupport,
-      image: image.firebaseUrl,
-      url: req.body.url,
-      repository: req.body.repository,
     });
 
     await data.save();
 
-    res.json({ message: "Documento adicionado com sucesso!" });
+    res.json("Documento adicionado com sucesso!");
   } catch (error) {
-    res.status(404).send(error.message);
+    res.status(404).json(error.message);
   }
 };
 
@@ -107,7 +101,7 @@ const deleteProject = async (req, res) => {
 
 module.exports = {
   queryTickets,
-  addProject,
+  addTicket,
   editProject,
   deleteProject,
   editProjectImage,

@@ -16,7 +16,7 @@ router.post("/auth/token", constrollerUsers.validateToken); //ok
 
 //routes user
 //add user
-router.post("/add/user", constrollerUsers.addUser);
+router.post("/add/user", constrollerUsers.addUser); //ok
 
 //edit user
 router.post("/edit/user/:id", constrollerUsers.editUser);
@@ -24,11 +24,7 @@ router.post("/edit/user/:id", constrollerUsers.editUser);
 router.delete("/delete/user/:id", constrollerUsers.deleteUser);
 
 //routes project
-router.post(
-  "/add/project",
-  // multer(multerConfig).single("image"),
-  constroller.addProject
-);
+router.post("/add/ticket", constroller.addTicket);//ok
 
 //edit project
 router.post("/edit/project/:id", constroller.editProject);
