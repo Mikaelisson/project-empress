@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import Header from "../Header";
-import CreateTicket from "./CreateTicket";
+import CreateTicket from "./CreateAndEditTicket";
 import Alert from "../utils/Alert";
 import Footer from "../Footer";
+import Tickets from "./Tickets";
 
 import "../utils/styleProgress.css";
+import CreateAndEditTicket from "./CreateAndEditTicket";
 
 const Dashboard = () => {
   const SESSION_EMPRESS = "SESSION_EMPRESS";
@@ -58,23 +60,53 @@ const Dashboard = () => {
             </div>
           )}
 
-          <div className="d-flex justify-content-between align-items-center">
-            <strong className="text-primary">Dashboard</strong>
-            <button
-              className="btn btn-outline-primary"
-              onClick={() => setCreateTicket(true)}
-            >
-              New ticket
-            </button>
+          <div className="d-flex flex-wrap gap-2">
+            <div className="w-100 d-flex justify-content-end">
+              <button
+                className="btn btn-primary"
+                onClick={() => setCreateTicket(true)}
+              >
+                New ticket
+              </button>
+            </div>
+
+            <div className="d-flex gap-2 overflow-auto">
+              <div
+                className="card border-primary"
+                style={{ width: "auto", minWidth: "130px" }}
+              >
+                <div className="card-body">
+                  <h5 className="card-title text-primary m-0 fs-6">
+                    #Dashboard
+                  </h5>
+                </div>
+              </div>
+
+              <div
+                className="card border-primary"
+                style={{ width: "auto", minWidth: "140px" }}
+              >
+                <div className="card-body">
+                  <h5 className="card-title text-primary m-0 fs-6">
+                    Total tickets: {tickets.length}
+                  </h5>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
-        <h1 className="text-primary text-center my-2">Tickets</h1>
+        <h1 className="text-primary text-center my-4">Tickets</h1>
 
-        <Tickets tickets={tickets} />
+        <Tickets
+          tickets={tickets}
+          onSetMessageFetch={onSetMessageFetch}
+          queryTickets={queryTickets}
+          user={user}
+        />
 
         {createTicket && (
-          <CreateTicket
+          <CreateAndEditTicket
             onCreateTicket={onCreateTicket}
             queryTickets={queryTickets}
             user={user}
@@ -86,42 +118,6 @@ const Dashboard = () => {
       </div>
 
       <Footer />
-    </div>
-  );
-};
-
-const Tickets = (props) => {
-  return (
-    <div>
-      {props.tickets
-        .map((ticket) => {
-          return (
-            <div
-              key={ticket._id}
-              id={ticket._id}
-              className="w-25 card w-100 p-2 my-2"
-            >
-              <div>
-                <strong className="text-capitalize">
-                  {ticket.client}
-                </strong>
-                <p className="text-capitalize m-0">
-                  <strong>Title:</strong> {ticket.title}
-                </p>
-              </div>
-
-              <div className="d-flex justify-content-end gap-2">
-                <button className="btn btn-secondary btn-sm">Edit</button>
-                <button className="btn btn-danger btn-sm">Delete</button>
-              </div>
-            </div>
-          );
-        })
-        .reverse()}
-
-      <div className="my-4 d-flex justify-content-center">
-        <button className="btn btn-primary rounded-pill">View More</button>
-      </div>
     </div>
   );
 };

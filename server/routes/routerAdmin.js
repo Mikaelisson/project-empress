@@ -24,19 +24,12 @@ router.post("/edit/user/:id", constrollerUsers.editUser);
 router.delete("/delete/user/:id", constrollerUsers.deleteUser);
 
 //routes project
-router.post("/add/ticket", constroller.addTicket);//ok
+router.post("/add/ticket", constroller.addTicket); //ok
 
 //edit project
-router.post("/edit/project/:id", constroller.editProject);
-
-//edit project image
-router.post(
-  "/edit/project/image/:id",
-  // multer(multerConfig).single("image"),
-  constroller.editProjectImage
-);
+router.post("/edit/ticket/:id", constroller.editTicket);
 
 //delete project
-router.delete("/delete/project/:id", constroller.deleteProject);
+router.delete("/delete/ticket/:id", constroller.deleteTicket); //ok
 
 module.exports = router;

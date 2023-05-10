@@ -11,14 +11,12 @@ const addTicketValidate = (data) => {
   return schema.validate(data);
 };
 
-const editProjectValidate = (data) => {
+const editTicketValidate = (data) => {
   const schema = Joi.object({
+    client: Joi.string(),
     title: Joi.string(),
     description: Joi.string(),
-    comments: Joi.string(),
-    mobileSupport: Joi.boolean(),
-    url: Joi.string(),
-    repository: Joi.string(),
+    email: Joi.string().required(),
   });
 
   return schema.validate(data);
@@ -47,7 +45,7 @@ const editUserValidate = (data) => {
 
 module.exports = {
   addTicketValidate,
-  editProjectValidate,
+  editTicketValidate,
   addUserValidate,
   editUserValidate,
 };

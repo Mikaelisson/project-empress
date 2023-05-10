@@ -1,5 +1,5 @@
 const Project = require("../models/Project");
-const { addTicketValidate, editProjectValidate } = require("./validate");
+const { addTicketValidate, editTicketValidate } = require("./validate");
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 
@@ -17,7 +17,7 @@ const queryTickets = async (req, res) => {
 const validateToken = async (email) => {
   const validate = await User.findOne({ email }, "-password");
   const token = jwt.verify(validate.token, process.env.TOKEN_SECRET);
-  if (!token) return res.status(404).send("Usuário não autenticado");
+  if (!token) return res.status(404).json("Usuário não autenticado");
   else return token;
 };
 
@@ -42,27 +42,27 @@ const addTicket = async (req, res) => {
   }
 };
 
-const editProject = async (req, res) => {
+const editTicket = async (req, res) => {
   let id = req.params.id;
 
   const data = {
+    client: req.body.client,
     title: req.body.title,
     description: req.body.description,
-    comments: req.body.comments,
-    mobileSupport: req.body.mobileSupport,
-    url: req.body.url,
-    repository: req.body.repository,
   };
-  const { error } = editProjectValidate(data);
 
-  if (error) res.status(404).send(`Error do JOI ==> ${error.message}`);
+  const { error } = editTicketValidate({ ...data, email: req.body.email });
+  if (error) {
+    console.log(error.message);
+    return res.status(404).json(error.message);
+  }
 
   try {
     await validateToken(req.body.email);
     await Project.findByIdAndUpdate(id, data);
-    res.json({ message: "Edição realizada com sucesso!" });
+    res.json("Ticket modificado com sucesso!");
   } catch (error) {
-    res.status(404).send(error);
+    res.status(404).json(error);
   }
 };
 
@@ -83,27 +83,27 @@ const editProjectImage = async (req, res) => {
   }
 };
 
-const deleteProject = async (req, res) => {
+const deleteTicket = async (req, res) => {
   let id = req.params.id;
 
   try {
     const project = await Project.findById(id);
-    if (!project) res.status(404).send("Projeto não existe.");
+    if (!project)
+      return res.status(404).json("Ticket inválido, tente novamente.");
 
     await validateToken(req.body.email);
-    await deleteImage(project.image);
     await Project.findByIdAndDelete(id);
-    res.json({ message: "Exclusão realizada com sucesso!" });
+    res.json("Ticket excluído com sucesso!");
   } catch (error) {
-    res.status(404).send(error);
+    res.status(404).json(error);
   }
 };
 
 module.exports = {
   queryTickets,
   addTicket,
-  editProject,
-  deleteProject,
+  editTicket,
+  deleteTicket,
   editProjectImage,
   validateToken,
 };

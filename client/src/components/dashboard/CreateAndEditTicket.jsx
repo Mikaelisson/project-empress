@@ -1,10 +1,16 @@
 import { useState } from "react";
 import Loading from "../utils/Loading";
 
-const CreateTicket = (props) => {
-  const [client, setClient] = useState("");
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
+const CreateAndEditTicket = (props) => {
+  const [client, setClient] = useState(
+    props.edit ? props.dataForEditing.client : ""
+  );
+  const [title, setTitle] = useState(
+    props.edit ? props.dataForEditing.title : ""
+  );
+  const [description, setDescription] = useState(
+    props.edit ? props.dataForEditing.description : ""
+  );
   const [loading, setLoading] = useState(false);
 
   const saveTicket = async () => {
@@ -29,6 +35,27 @@ const CreateTicket = (props) => {
     props.onCreateTicket();
   };
 
+  const editTicket = async (data) => {
+    const dataApi = await fetch(`/admin/edit/ticket/${data._id}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        client,
+        title,
+        description,
+        email: props.user.email,
+      }),
+    });
+
+    const doc = await dataApi.json();
+    props.queryTickets();
+    setLoading(false);
+    props.onSetMessageFetch(doc);
+    props.onCreateTicket();
+  };
+
   return (
     <div
       className="position-fixed start-0 top-0 w-100 d-flex justify-content-center align-items-center z-2"
@@ -42,7 +69,9 @@ const CreateTicket = (props) => {
           onClick={() => props.onCreateTicket()}
         ></button>
 
-        <h1 className="text-primary text-center mt-0 mb-4">Create Ticket</h1>
+        <h1 className="text-primary text-center mt-0 mb-4">
+          {props.edit ? "Edit" : "Create"} Ticket
+        </h1>
 
         <form action="" method="" onSubmit={(event) => event.preventDefault()}>
           <div className="mb-3">
@@ -52,6 +81,7 @@ const CreateTicket = (props) => {
               id="client"
               placeholder="Client"
               onChange={(event) => setClient(event.target.value)}
+              value={client}
               required
             />
           </div>
@@ -63,6 +93,7 @@ const CreateTicket = (props) => {
               id="title"
               placeholder="Title"
               onChange={(event) => setTitle(event.target.value)}
+              value={title}
               required
             />
           </div>
@@ -74,6 +105,7 @@ const CreateTicket = (props) => {
               rows="3"
               placeholder="Description"
               onChange={(event) => setDescription(event.target.value)}
+              value={description}
               required
             ></textarea>
           </div>
@@ -82,8 +114,14 @@ const CreateTicket = (props) => {
             <button
               className="btn btn-primary"
               onClick={() => {
-                setLoading(!loading);
-                saveTicket();
+                if (!props.edit) {
+                  setLoading(!loading);
+                  saveTicket();
+                }
+                if (props.edit) {
+                  setLoading(true);
+                  editTicket(props.dataForEditing);
+                }
               }}
             >
               Save
@@ -96,4 +134,4 @@ const CreateTicket = (props) => {
   );
 };
 
-export default CreateTicket;
+export default CreateAndEditTicket;
