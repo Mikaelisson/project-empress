@@ -8,23 +8,23 @@ const Header = (props) => {
   const [items, setItem] = useState([
     {
       name: "Home",
-      path: "#",
+      path: "/#",
     },
     {
       name: "Solutions",
-      path: "#solutions",
+      path: "/#solutions",
     },
     {
       name: "Who we are",
-      path: "#about",
+      path: "/#about",
     },
     {
       name: "Contact",
-      path: "#contact",
+      path: "/#contact",
     },
     {
       name: "Support",
-      path: "/dashboard",
+      path: "/support",
       icon: <BsBoxArrowUpRight style={{ width: "15px", height: "15px" }} />,
     },
   ]);

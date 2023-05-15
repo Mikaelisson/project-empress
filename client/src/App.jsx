@@ -2,11 +2,11 @@ import Footer from "./components/Footer";
 import Header from "./components/Header";
 import Main from "./components/Main";
 
-const App = () => {
+const App = (props) => {
   return (
     <>
       <Header />
-      <Main />
+      {props.children ? props.children : <Main />}
       <Footer />
     </>
   );

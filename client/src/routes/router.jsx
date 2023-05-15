@@ -5,6 +5,7 @@ import Login from "../components/authentication/Login";
 import ErrorPage from "../components/error-page";
 import Dashboard from "../components/dashboard/Dashboard";
 import PrivateRoute from "../components/authentication/PrivateRoute";
+import Support from "../components/Support";
 
 export const router = createBrowserRouter([
   {
@@ -15,6 +16,11 @@ export const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/support",
+    element: <Support />,
     errorElement: <ErrorPage />,
   },
   {
