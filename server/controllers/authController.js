@@ -7,7 +7,6 @@ module.exports = (req, res, next) => {
   try {
     //verify token
     jwt.verify(token, process.env.TOKEN_SECRET);
-    console.log("Authenticated!");
     next();
   } catch (error) {
     console.log("auth ==>" + error.message);

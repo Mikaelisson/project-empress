@@ -8,28 +8,28 @@ const loginController = require("../controllers/loginController");
 router.use(express.urlencoded({ extended: true }));
 router.use(express.json());
 
-router.get("/users", constrollerUsers.queryUsers); //ok
+router.post("/users", constrollerUsers.queryUsers);
 
 //routes auth
-router.post("/auth", loginController, auth, constrollerUsers.dashboard); //ok
-router.post("/auth/token", constrollerUsers.validateToken); //ok
+router.post("/auth", loginController, auth, constrollerUsers.dashboard);
+router.post("/auth/token", constrollerUsers.validateToken);
 
 //routes user
 //add user
-router.post("/add/user", constrollerUsers.addUser); //ok
+router.post("/add/user", constrollerUsers.addUser);
 
 //edit user
 router.post("/edit/user/:id", constrollerUsers.editUser);
 
 router.delete("/delete/user/:id", constrollerUsers.deleteUser);
 
-//routes project
-router.post("/add/ticket", constroller.addTicket); //ok
+//routes ticket
+router.post("/add/ticket", constroller.addTicket);
 
-//edit project
+//edit ticket
 router.post("/edit/ticket/:id", constroller.editTicket);
 
-//delete project
-router.delete("/delete/ticket/:id", constroller.deleteTicket); //ok
+//delete ticket
+router.delete("/delete/ticket/:id", constroller.deleteTicket);
 
 module.exports = router;

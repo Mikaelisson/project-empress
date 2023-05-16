@@ -2,7 +2,7 @@ import "./styleProgress.css"
 
 const Alert = (props) => {
   return (
-    <div className="position-fixed top-0 mt-4 d-flex justify-content-center w-75">
+    <div className="position-fixed top-0 mt-4 d-flex justify-content-center w-75 n-3">
       <div
         className="alert alert-warning alert-dismissible fade show"
         role="alert"

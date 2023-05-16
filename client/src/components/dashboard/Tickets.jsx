@@ -1,16 +1,20 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Loading from "../utils/Loading";
 import CreateAndEditTicket from "./CreateAndEditTicket";
+import ViewMore from "./ViewMore";
+
+import { MdModeEditOutline } from "react-icons/md";
+import { TiDelete } from "react-icons/ti";
 
 const Tickets = (props) => {
   const [id, setId] = useState("");
   const [loading, setLoading] = useState(false);
+  const [viewMore, setViewMore] = useState(false);
   const [edit, setEdit] = useState(false);
   const [createTicket, setCreateTicket] = useState(false);
   const [dataForEditing, setDataForEditing] = useState("");
 
   const deleteTicket = async () => {
-    const id = document.getElementById("id").value;
     const email = props.user.email;
 
     const data = await fetch(`/admin/delete/ticket/${id}`, {
@@ -30,6 +34,7 @@ const Tickets = (props) => {
   };
 
   const onCreateTicket = () => setCreateTicket(!createTicket);
+  const onViewMore = () => setViewMore(!viewMore);
 
   return (
     <div>
@@ -50,31 +55,51 @@ const Tickets = (props) => {
 
               <input
                 type="text"
-                id="id"
+                id={ticket._id}
                 onChange={() => setId(ticket._id)}
                 value={ticket._id}
                 hidden
               />
 
-              <div className="d-flex justify-content-end gap-2">
+              <div className="d-flex justify-content-end gap-2 mt-1">
                 <button
-                  className="btn btn-secondary btn-sm"
+                  className="btn btn-primary btn-sm"
+                  onClick={() => {
+                    setDataForEditing(ticket);
+                    onViewMore();
+                  }}
+                >
+                  View More
+                </button>
+
+                <button
+                  className="btn btn-secondary btn-sm d-flex justify-content-center align-items-center"
                   onClick={() => {
                     setEdit(true);
                     setDataForEditing(ticket);
                     onCreateTicket();
                   }}
                 >
-                  Edit
+                  <MdModeEditOutline
+                    style={{
+                      width: "20px",
+                      height: "20px",
+                    }}
+                  />
                 </button>
                 <button
-                  className="btn btn-danger btn-sm"
+                  className="btn btn-danger btn-sm d-flex justify-content-center align-items-center"
                   onClick={() => {
                     setLoading(true);
                     deleteTicket();
                   }}
                 >
-                  Delete
+                  <TiDelete
+                    style={{
+                      width: "20px",
+                      height: "20px",
+                    }}
+                  />
                 </button>
               </div>
             </form>
@@ -91,6 +116,10 @@ const Tickets = (props) => {
           edit={edit}
           dataForEditing={dataForEditing}
         />
+      )}
+
+      {viewMore && (
+        <ViewMore onViewMore={onViewMore} dataForEditing={dataForEditing} />
       )}
 
       {loading && <Loading />}

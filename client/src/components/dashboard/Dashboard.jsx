@@ -1,18 +1,25 @@
 import { useEffect, useState } from "react";
 import Header from "../Header";
-import CreateTicket from "./CreateAndEditTicket";
 import Alert from "../utils/Alert";
 import Footer from "../Footer";
 import Tickets from "./Tickets";
+import CreateAndEditTicket from "./CreateAndEditTicket";
+import CreateAndEditUser from "./CreateAndEditUser";
+import ListUsers from "./ListUsers";
+
+import { FaUserPlus, FaUsers } from "react-icons/fa";
+import { BiAddToQueue, BiMessageSquareAdd } from "react-icons/bi";
 
 import "../utils/styleProgress.css";
-import CreateAndEditTicket from "./CreateAndEditTicket";
 
 const Dashboard = () => {
   const SESSION_EMPRESS = "SESSION_EMPRESS";
 
   const [tickets, setTickets] = useState([]);
   const [createTicket, setCreateTicket] = useState(false);
+  const [createUser, setCreateUser] = useState(false);
+  const [listUsers, setListUsers] = useState(false);
+  const [users, setUsers] = useState([]);
   const [user, setUser] = useState("");
   const [messageFetch, setMessageFetch] = useState("");
   const [messageWelcome, setMessageWelcome] = useState(true);
@@ -24,7 +31,15 @@ const Dashboard = () => {
     setUser(JSON.parse(localStorage.getItem(SESSION_EMPRESS)));
   };
 
+  const queryUsers = async () => {
+    const data = await fetch("/admin/users", { method: "POST" });
+    const doc = await data.json();
+    setUsers(doc);
+  };
+
   const onCreateTicket = () => setCreateTicket(!createTicket);
+  const onCreateUser = () => setCreateUser(!createUser);
+  const onListUsers = () => setListUsers(!users);
 
   const onSetMessageFetch = (data) => {
     setMessageFetch(data);
@@ -60,14 +75,40 @@ const Dashboard = () => {
             </div>
           )}
 
-          <div className="d-flex flex-wrap gap-2">
-            <div className="w-100 d-flex justify-content-end">
-              <button
-                className="btn btn-primary"
-                onClick={() => setCreateTicket(true)}
-              >
-                New ticket
-              </button>
+          <div className="d-flex flex-column gap-2">
+            <div className="d-flex">
+              <strong className="m-0 text-primary">Users</strong>
+
+              <div className="w-100 d-flex justify-content-end align-items-center gap-2">
+                <button
+                  className="btn btn-primary d-flex justify-content-center align-items-center"
+                  onClick={() => onCreateUser()}
+                  title="New user"
+                >
+                  <FaUserPlus
+                    style={{
+                      width: "20px",
+                      height: "20px",
+                    }}
+                  />
+                </button>
+
+                <button
+                  className="btn btn-primary d-flex justify-content-center align-items-center"
+                  onClick={() => {
+                    queryUsers();
+                    setListUsers(true);
+                  }}
+                  title="User list"
+                >
+                  <FaUsers
+                    style={{
+                      width: "20px",
+                      height: "20px",
+                    }}
+                  />
+                </button>
+              </div>
             </div>
 
             <div className="d-flex gap-2 overflow-auto">
@@ -96,7 +137,22 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <h1 className="text-primary text-center my-4">Tickets</h1>
+        <h1 className="text-primary text-center mt-5">Tickets</h1>
+
+        <div className="d-flex justify-content-end">
+          <button
+            className="btn btn-primary d-flex justify-content-center align-items-center"
+            onClick={() => setCreateTicket(true)}
+            title="New ticket"
+          >
+            <BiAddToQueue
+              style={{
+                width: "20px",
+                height: "20px",
+              }}
+            />
+          </button>
+        </div>
 
         <Tickets
           tickets={tickets}
@@ -105,10 +161,28 @@ const Dashboard = () => {
           user={user}
         />
 
+        {listUsers && (
+          <ListUsers
+            users={users}
+            user={user}
+            onListUsers={onListUsers}
+            onSetMessageFetch={onSetMessageFetch}
+            queryUsers={queryUsers}
+          />
+        )}
+
         {createTicket && (
           <CreateAndEditTicket
             onCreateTicket={onCreateTicket}
             queryTickets={queryTickets}
+            user={user}
+            onSetMessageFetch={onSetMessageFetch}
+          />
+        )}
+
+        {createUser && (
+          <CreateAndEditUser
+            onCreateUser={onCreateUser}
             user={user}
             onSetMessageFetch={onSetMessageFetch}
           />

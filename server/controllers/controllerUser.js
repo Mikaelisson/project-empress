@@ -32,6 +32,7 @@ const addUser = async (req, res) => {
   const { error } = addUserValidate(req.body);
   if (error) res.status(404).json(`Error JOI ==> ${error.message}`);
 
+  const authentication = req.body.authentication;
   const password = bcrypt.hashSync(req.body.password, 10);
 
   const data = new User({
@@ -43,7 +44,7 @@ const addUser = async (req, res) => {
   });
 
   try {
-    await controller.validateToken(req.body.authentication);
+    await controller.validateToken(authentication);
 
     const verifyUserExist = await User.findOne({ email: req.body.email });
     if (verifyUserExist) res.status(404).json("Usuário ou senha inválidos");
@@ -57,23 +58,23 @@ const addUser = async (req, res) => {
 
 const editUser = async (req, res) => {
   const { error } = editUserValidate(req.body);
-  if (error) res.status(404).send(`Error JOI ==> ${error.message}`);
+  if (error) res.status(404).json(error.message);
 
   let id = req.params.id;
+  const authentication = req.body.authentication;
 
   const user = {
-    name: req.body.nameInput,
-    email: req.body.emailInput,
+    name: req.body.name,
+    email: req.body.email,
     lastChange: new Date(),
   };
 
   try {
-    await controller.validateToken(req.body.email);
+    await controller.validateToken(authentication);
 
     await User.findByIdAndUpdate(id, user);
-    await User.findById(id);
 
-    res.json({ message: "Usuário editado com sucesso!" });
+    res.json("Usuário editado com sucesso!");
   } catch (error) {
     res.status(404).send(error);
   }
@@ -85,8 +86,7 @@ const deleteUser = async (req, res) => {
   try {
     await controller.validateToken(req.body.email);
     const doc = await User.findByIdAndDelete(id);
-    console.log("Usuário deletado com sucesso!");
-    res.send(doc);
+    res.json("Usuário deletado com sucesso!");
   } catch (error) {
     res.status(404).send(error);
   }

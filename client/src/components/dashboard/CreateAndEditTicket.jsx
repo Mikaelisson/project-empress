@@ -31,8 +31,8 @@ const CreateAndEditTicket = (props) => {
 
     props.queryTickets();
     setLoading(false);
-    props.onSetMessageFetch(doc);
     props.onCreateTicket();
+    props.onSetMessageFetch(doc);
   };
 
   const editTicket = async (data) => {
