@@ -76,8 +76,10 @@ const Dashboard = () => {
           )}
 
           <div className="d-flex flex-column gap-2">
-            <div className="d-flex">
-              <strong className="m-0 text-primary">Users</strong>
+            <div className="d-flex bg-primary bg-opacity-75 text-white rounded p-2">
+              <strong className="m-0 text-primary fs-5 text-white">
+                Users
+              </strong>
 
               <div className="w-100 d-flex justify-content-end align-items-center gap-2">
                 <button
@@ -130,6 +132,17 @@ const Dashboard = () => {
                 <div className="card-body">
                   <h5 className="card-title text-primary m-0 fs-6">
                     Total tickets: {tickets.length}
+                  </h5>
+                </div>
+              </div>
+
+              <div
+                className="card border-primary"
+                style={{ width: "auto", minWidth: "140px" }}
+              >
+                <div className="card-body">
+                  <h5 className="card-title text-primary m-0 fs-6">
+                    Total users: {users.length}
                   </h5>
                 </div>
               </div>
