@@ -125,7 +125,7 @@ Você pode acessar o sistema clicando [aqui,](https://empresstechnology.onrender
 
 # <p name="autores"> Autores </p>
 
-<div style="display: flex; gap: 10px; width: 100%; position: relative;">
+<div style="display: flex; flex-wrap: nowrap; gap: 10px; width: 100%; position: relative;">
 
 [<img src="https://avatars.githubusercontent.com/Mikaelisson" width="115px"><br><sub>Mikaelisson Gesuino</sub>](https://github.com/Mikaelisson)
 | :---: |
